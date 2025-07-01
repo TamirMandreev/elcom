@@ -9,8 +9,18 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+# Модуль os представляет интерфейс для взаимодействия с операционной системой
+# Он позволяет выполнять множество системных операций прямо из Python-кода
+import os
 from pathlib import Path
+
+# Функция load_dotenv используется для загрузки переменных окружения из файла .env
+# в текущее окружение Python
+from dotenv import load_dotenv
+
+# Загрузить переменные из .env
+# override - перезаписать ли существующие переменные окружения
+load_dotenv(override=True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +30,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-v)npo&y3w%--$malwf(z7n)5%gppkru--5^_pqp@%o4o3nmq)t'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = []
 
