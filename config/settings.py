@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework', # Подключить Django REST Framework
+    'distribution_network', # Подключить приложение distribution_network
 ]
 
 MIDDLEWARE = [
