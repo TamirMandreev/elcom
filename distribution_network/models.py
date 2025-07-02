@@ -9,9 +9,9 @@ class DistributionNetwork(models.Model):
     '''
     Сеть дистрибуции
     '''
-    factory = models.ForeignKey('NetworkParticipant', on_delete=models.SET_NULL, limit_choices_to={'type': 'factory'},  null=True) # Завод
-    retail_network = models.ForeignKey('NetworkParticipant', on_delete=models.SET_NULL, limit_choices_to={'type': 'retail_network'}, null=True, blank=True) # Розничная сеть
-    individual_entrepreneur = models.ForeignKey('NetworkParticipant', on_delete=models.SET_NULL, limit_choices_to={'type': 'individual_entrepreneur'}, null=True, blank=True) # Индивидуальный предприниматель
+    factory = models.ForeignKey('NetworkParticipant', on_delete=models.SET_NULL, limit_choices_to={'type': 'factory'},  null=True, related_name='factories') # Завод
+    retail_network = models.ForeignKey('NetworkParticipant', on_delete=models.SET_NULL, limit_choices_to={'type': 'retail_network'}, null=True, blank=True, related_name='retail_networks') # Розничная сеть
+    individual_entrepreneur = models.ForeignKey('NetworkParticipant', on_delete=models.SET_NULL, limit_choices_to={'type': 'individual_entrepreneur'}, null=True, blank=True, related_name='individual_entrepreneurs') # Индивидуальный предприниматель
 
     class Meta:
         verbose_name = 'Сеть дистрибуции'
@@ -36,7 +36,7 @@ class NetworkParticipant(models.Model):
     street = models.CharField(max_length=100, blank=True, null=True, verbose_name='Улица')
     house_number = models.CharField(max_length=20, blank=True, null=True, verbose_name='Номер дома')
 
-    products = models.ManyToManyField('Product', blank=True, null=True, verbose_name='Продукты', related_name='network_participant')
+    products = models.ManyToManyField('Product', blank=True, verbose_name='Продукты', related_name='network_participant')
 
     supplier = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Поставщик', related_name='clients')
     debt_to_supplier = models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))], default=Decimal('0.00'), verbose_name='Задолженность перед поставщиком')
