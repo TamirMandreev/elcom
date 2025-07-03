@@ -23,7 +23,7 @@ class NetworkParticipantAdmin(admin.ModelAdmin):
     list_filter = ('city',)
 
     # Добавить действие для обнуления задолженности перед поставщиком
-    actions = ('clear_debt_to_supplier',)
+    actions = ('clear_debt_to_supplier', 'clear_debt_to_suppliers')
     # Кастомизировать шаблон формы редактирования объекта
     # Опредедить путь к HTML-шаблону, который будет использоваться вместо стандартного шаблона формы редактирования
     change_form_template = 'admin/network_participant_change_form.html'
@@ -45,6 +45,21 @@ class NetworkParticipantAdmin(admin.ModelAdmin):
         self.message_user(request, 'Задолженность обнулена', messages.SUCCESS)
         # Вернуться назад
         return HttpResponseRedirect('../')
+
+    def clear_debt_to_suppliers(self, request, queryset):
+        '''
+        Обнуляет поле debt_to_supplier у выбранных объектов
+        :param request: объект HTTP-запроса
+        :param queryset: набор выбранных объектов, которые нужно изменить
+        :return:
+        '''
+        # Массовое обновление поля debt_to_supplier
+        updated = queryset.update(debt_to_supplier=Decimal('0.00'))
+        # Показать сообщение
+        self.message_user(request,f'Задолженность обнулена у {updated} участников', messages.SUCCESS)
+    # Задать понятное название для выпадающего мень действий
+    clear_debt_to_suppliers.short_description = 'Обнулить задолженность у выбранных участников'
+
 
     # Добавить url-адрес для обнуления поля debt_to_supplier к стандартным маршрутам админки
     def get_urls(self):
