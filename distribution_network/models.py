@@ -65,5 +65,12 @@ class Product(models.Model):
     model = models.CharField(max_length=255, verbose_name='Модель')
     realese_date = models.DateField(verbose_name='Дата выхода продукта на рынок')
 
+    class Meta:
+        verbose_name = 'Продукт'
+        verbose_name_plural = 'Продукты'
+
+    def __str__(self):
+        return self.name
+
 
 
