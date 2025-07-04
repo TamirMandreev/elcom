@@ -74,6 +74,8 @@ class NetworkParticipantAdmin(admin.ModelAdmin):
         # Вернуться назад
         return HttpResponseRedirect("../")
 
+    supplier_link.short_description = "Поставщик"
+
     def clear_debt_to_suppliers(self, request, queryset):
         """
         Обнуляет поле debt_to_supplier у выбранных объектов
