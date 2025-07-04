@@ -2,8 +2,11 @@
 
 {% block submit_buttons_bottom %}
     {{ block.super }}
+
+    {% if original.pk %}
     <div class="submit-row">
         <a href="{% url 'admin:clear_debt_to_supplier' original.pk %}" class="button">Обнулить задолженность</a>
     </div>
+    {% endif %}
 
 {% endblock %}
