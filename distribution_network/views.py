@@ -11,10 +11,7 @@ from .serializers import NetworkParticipantSerializer
 
 class FactoryViewSet(viewsets.ModelViewSet):
     serializer_class = NetworkParticipantSerializer
-    queryset = NetworkParticipant.objects.filter(type=NetworkParticipant.Types.FACTORY)
+    queryset = NetworkParticipant.objects.filter(clients__isnull=False).distinct()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["country"]  # Поля для фильтрации
     permission_classes = [IsAuthenticated, IsActiveEmployee]
-
-    def perform_create(self, serializer):
-        serializer.save(type=NetworkParticipant.Types.FACTORY)
