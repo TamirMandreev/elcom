@@ -2,7 +2,8 @@ from decimal import Decimal
 
 from django.contrib import admin, messages
 from django.http import HttpResponseRedirect
-from django.urls import path
+from django.urls import path, reverse
+from django.utils.html import format_html
 
 from distribution_network.models import DistributionNetwork, NetworkParticipant, Product
 
@@ -18,7 +19,7 @@ class DistributionNetworkAdmin(admin.ModelAdmin):
 @admin.register(NetworkParticipant)
 class NetworkParticipantAdmin(admin.ModelAdmin):
     # Отобразить в списке участников сети дистрибуции следующие поля
-    list_display = ('type', 'name', 'email', 'country', 'city', 'street', 'house_number', 'supplier', 'debt_to_supplier', 'created_at')
+    list_display = ('type', 'name', 'email', 'country', 'city', 'street', 'house_number', 'supplier_link', 'debt_to_supplier', 'created_at')
     # Добавить фильтрацию по полям
     list_filter = ('city',)
 
@@ -27,6 +28,19 @@ class NetworkParticipantAdmin(admin.ModelAdmin):
     # Кастомизировать шаблон формы редактирования объекта
     # Опредедить путь к HTML-шаблону, который будет использоваться вместо стандартного шаблона формы редактирования
     change_form_template = 'admin/network_participant_change_form.html'
+
+    def supplier_link(self, obj):
+        '''
+        Возвращает ссылку на страницу редактирования поставщика
+        :param obj:
+        :return:
+        '''
+        # Проверить наличие поставщика
+        if obj.supplier:
+            url = reverse('admin:distribution_network_networkparticipant_change', args=(obj.supplier.id,))
+            return format_html('<a href="{}">{}</a>', url, obj.supplier)
+        # Если поставщика нет, вернуть прочерк
+        return '-'
 
     def clear_debt_to_supplier(self, request, object_id):
         '''
@@ -71,8 +85,6 @@ class NetworkParticipantAdmin(admin.ModelAdmin):
         ]
         # Вернуть объединение двух списков URL-паттернов
         return custom_urls + urls
-
-
 
 
 # Зарегистрировать модель Product в панели администратора
