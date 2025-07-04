@@ -6,13 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('distribution_network', '0001_initial'),
+        ("distribution_network", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='networkparticipant',
-            name='products',
-            field=models.ManyToManyField(blank=True, related_name='network_participant', to='distribution_network.product', verbose_name='Продукты'),
+            model_name="networkparticipant",
+            name="products",
+            field=models.ManyToManyField(
+                blank=True,
+                related_name="network_participant",
+                to="distribution_network.product",
+                verbose_name="Продукты",
+            ),
         ),
     ]

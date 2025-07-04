@@ -10,51 +10,176 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Product',
+            name="Product",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, verbose_name='Название')),
-                ('model', models.CharField(max_length=255, verbose_name='Модель')),
-                ('realese_date', models.DateField(verbose_name='Дата выхода продукта на рынок')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255, verbose_name="Название")),
+                ("model", models.CharField(max_length=255, verbose_name="Модель")),
+                (
+                    "realese_date",
+                    models.DateField(verbose_name="Дата выхода продукта на рынок"),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='NetworkParticipant',
+            name="NetworkParticipant",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('type', models.CharField(choices=[('factory', 'Завод'), ('retail_network', 'Розничная сеть'), ('individual_entrepreneur', 'ИП')], max_length=25)),
-                ('name', models.CharField(max_length=255, verbose_name='Название')),
-                ('email', models.EmailField(blank=True, max_length=254, null=True, verbose_name='Email')),
-                ('country', models.CharField(blank=True, max_length=100, null=True, verbose_name='Страна')),
-                ('city', models.CharField(blank=True, max_length=100, null=True, verbose_name='Город')),
-                ('street', models.CharField(blank=True, max_length=100, null=True, verbose_name='Улица')),
-                ('house_number', models.CharField(blank=True, max_length=20, null=True, verbose_name='Номер дома')),
-                ('debt_to_supplier', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=12, validators=[django.core.validators.MinValueValidator(Decimal('0.00'))], verbose_name='Задолженность перед поставщиком')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Время создания')),
-                ('supplier', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='clients', to='distribution_network.networkparticipant', verbose_name='Поставщик')),
-                ('products', models.ManyToManyField(blank=True, null=True, related_name='network_participant', to='distribution_network.product', verbose_name='Продукты')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "type",
+                    models.CharField(
+                        choices=[
+                            ("factory", "Завод"),
+                            ("retail_network", "Розничная сеть"),
+                            ("individual_entrepreneur", "ИП"),
+                        ],
+                        max_length=25,
+                    ),
+                ),
+                ("name", models.CharField(max_length=255, verbose_name="Название")),
+                (
+                    "email",
+                    models.EmailField(
+                        blank=True, max_length=254, null=True, verbose_name="Email"
+                    ),
+                ),
+                (
+                    "country",
+                    models.CharField(
+                        blank=True, max_length=100, null=True, verbose_name="Страна"
+                    ),
+                ),
+                (
+                    "city",
+                    models.CharField(
+                        blank=True, max_length=100, null=True, verbose_name="Город"
+                    ),
+                ),
+                (
+                    "street",
+                    models.CharField(
+                        blank=True, max_length=100, null=True, verbose_name="Улица"
+                    ),
+                ),
+                (
+                    "house_number",
+                    models.CharField(
+                        blank=True, max_length=20, null=True, verbose_name="Номер дома"
+                    ),
+                ),
+                (
+                    "debt_to_supplier",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("0.00"),
+                        max_digits=12,
+                        validators=[
+                            django.core.validators.MinValueValidator(Decimal("0.00"))
+                        ],
+                        verbose_name="Задолженность перед поставщиком",
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Время создания"
+                    ),
+                ),
+                (
+                    "supplier",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="clients",
+                        to="distribution_network.networkparticipant",
+                        verbose_name="Поставщик",
+                    ),
+                ),
+                (
+                    "products",
+                    models.ManyToManyField(
+                        blank=True,
+                        null=True,
+                        related_name="network_participant",
+                        to="distribution_network.product",
+                        verbose_name="Продукты",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Участник сети',
-                'verbose_name_plural': 'Участники сети',
+                "verbose_name": "Участник сети",
+                "verbose_name_plural": "Участники сети",
             },
         ),
         migrations.CreateModel(
-            name='DistributionNetwork',
+            name="DistributionNetwork",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('factory', models.ForeignKey(limit_choices_to={'type': 'factory'}, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='factories', to='distribution_network.networkparticipant')),
-                ('individual_entrepreneur', models.ForeignKey(blank=True, limit_choices_to={'type': 'individual_entrepreneur'}, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='individual_entrepreneurs', to='distribution_network.networkparticipant')),
-                ('retail_network', models.ForeignKey(blank=True, limit_choices_to={'type': 'retail_network'}, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='retail_networks', to='distribution_network.networkparticipant')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "factory",
+                    models.ForeignKey(
+                        limit_choices_to={"type": "factory"},
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="factories",
+                        to="distribution_network.networkparticipant",
+                    ),
+                ),
+                (
+                    "individual_entrepreneur",
+                    models.ForeignKey(
+                        blank=True,
+                        limit_choices_to={"type": "individual_entrepreneur"},
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="individual_entrepreneurs",
+                        to="distribution_network.networkparticipant",
+                    ),
+                ),
+                (
+                    "retail_network",
+                    models.ForeignKey(
+                        blank=True,
+                        limit_choices_to={"type": "retail_network"},
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="retail_networks",
+                        to="distribution_network.networkparticipant",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Сеть дистрибуции',
-                'verbose_name_plural': 'Сети дистрибуции',
+                "verbose_name": "Сеть дистрибуции",
+                "verbose_name_plural": "Сети дистрибуции",
             },
         ),
     ]

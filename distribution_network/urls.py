@@ -5,6 +5,6 @@ from .views import FactoryViewSet
 
 router = DefaultRouter()
 
-router.register(r'factories', FactoryViewSet, basename='factories')
+router.register(r"factories", FactoryViewSet, basename="factories")
 
 urlpatterns = router.urls

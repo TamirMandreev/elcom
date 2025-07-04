@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class DistributionNetworkConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'distribution_network'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "distribution_network"

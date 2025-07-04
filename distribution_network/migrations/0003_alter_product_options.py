@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('distribution_network', '0002_alter_networkparticipant_products'),
+        ("distribution_network", "0002_alter_networkparticipant_products"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='product',
-            options={'verbose_name': 'Продукт', 'verbose_name_plural': 'Продукты'},
+            name="product",
+            options={"verbose_name": "Продукт", "verbose_name_plural": "Продукты"},
         ),
     ]
